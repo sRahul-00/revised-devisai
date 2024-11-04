@@ -16,7 +16,7 @@ const Navbar = () => {
   const location = useLocation();
   const currentPath = location.pathname;
 
-  const userLoggedIn = true;
+  const [userLoggedIn, setUserLoggedIn] = useState(true);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isWalletModalOpen, setIsWalletModalOpen] = useState(false);
@@ -27,8 +27,10 @@ const Navbar = () => {
   };
 
   const toggleWalletModal = () => {
+    if (isModalOpen) toggleModal();
     setIsWalletModalOpen(!isWalletModalOpen);
   };
+
   const toggleProfileModal = () => {
     if (isModalOpen) toggleModal();
     setIsProfileModalOpen(!isProfileModalOpen);
@@ -65,6 +67,11 @@ const Navbar = () => {
       document.documentElement.classList.add("dark");
       localStorage.setItem("theme", "dark");
     }
+  };
+
+  const logoutUser = () => {
+    setUserLoggedIn(false);
+    toggleProfileModal();
   };
 
   // console.log(currentPath, typeof currentPath);
@@ -156,7 +163,7 @@ const Navbar = () => {
       {/* connect wallet */}
       {isWalletModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white p-10 rounded-lg w-96 relative">
+          <div className="bg-white p-10 rounded-lg w-96 relative dark:bg-darkModeFooterColor">
             <button
               onClick={toggleWalletModal}
               className="absolute top-3 right-5 mb-4 text-4xl"
@@ -189,7 +196,13 @@ const Navbar = () => {
 
       {isProfileModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white p-10 rounded-lg w-588 dark:bg-darkModeFooterColor">
+          <div className="bg-white p-10 rounded-lg w-588 dark:bg-darkModeFooterColor relative">
+            <button
+              onClick={toggleProfileModal}
+              className="absolute top-3 right-5 mb-4 text-4xl"
+            >
+              &times;
+            </button>
             <div className="flex gap-8 items-center">
               <img src={ProfilePic} alt="" className="w-20 rounded-full" />
               <h1 className="text-3xl font-bold">Profile</h1>
@@ -224,11 +237,8 @@ const Navbar = () => {
             </div>
 
             <div className="flex justify-end mt-10">
-              <button
-                onClick={toggleProfileModal}
-                className="mb-4 text-lg vote-btn"
-              >
-                Close Tab
+              <button onClick={logoutUser} className="mb-4 text-lg vote-btn">
+                Disconnect Tab
               </button>
             </div>
           </div>
@@ -292,7 +302,7 @@ const Navbar = () => {
               </Link>
 
               <div className="md:hidden flex flex-col-reverse gap-10">
-                <div className="flex gap-8 justify-center items-center">
+                <div className="flex gap-8 justify-center items-center icon-container">
                   <Link to={"https://t.me/DevIsAiSol"}>
                     <img src={Telegram} alt="Telegram" />
                   </Link>
@@ -312,7 +322,9 @@ const Navbar = () => {
                     />
                   </button>
                 ) : (
-                  <button className="connect-btn">Connect Wallet</button>
+                  <button className="connect-btn" onClick={toggleWalletModal}>
+                    Connect Wallet
+                  </button>
                 )}
               </div>
             </div>

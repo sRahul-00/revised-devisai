@@ -62,3 +62,10 @@
     background: #1A1919;
     border: 1px solid #6D6D6D;
 }
+.icon-container {
+    color: #242424;
+    /* Light mode icon color */
+}
+.dark .icon-container {
+    color: #ffffff;
+}

@@ -6,3 +6,4 @@ export { default as LaunchedTokenContainer } from "./LaunchedTokenContainer";
 export { default as Timer } from "./Timer";
 export { default as Navbar } from "./Navbar";
 export { default as Footer } from "./Footer";
+export { default as Features } from "./Features";
